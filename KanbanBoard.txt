@@ -1,0 +1,22 @@
+Kanban Board
+To Do
+(No tasks)
+
+In Progress
+(No tasks)
+
+Done
+ Initial project setup
+ Set up the project structure
+ Design the database schema
+ Implement User table
+ Implement Topics table
+ Implement Entries table
+ Create UI for logging in users
+ Create UI for creating user accounts
+ Implement progress tracking logic
+ Connect the UI with the database
+ Test adding users functionality
+ Test progress tracking for entries
+ Finalize project requirements
+ Set up version control (e.g., Git)
