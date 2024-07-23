@@ -66,7 +66,7 @@ public class ProgressTracker implements TrackerDao{
     }
 
     @Override
-    public boolean createAccount(String userName, String passWord) {
+    public boolean createAccount(String userName, String passWord) throws noIdException{
         Pattern pattern = Pattern.compile("^[a-zA-Z0-9_]+$");
         Matcher matcher;
         PreparedStatement pstmt;
@@ -103,8 +103,8 @@ public class ProgressTracker implements TrackerDao{
                 this.userName = userName;
                 return true;
             }else{
-                System.err.println("Creating user failed, no ID obtained.");
-                return false;
+                throw new noIdException("user");
+                
             }
 
         } catch (SQLException e) {
@@ -479,7 +479,7 @@ public class ProgressTracker implements TrackerDao{
     }
 
     @Override
-    public Tracker createNewEntry(String name, String description, Topic topic){
+    public Tracker createNewEntry(String name, String description, Topic topic) throws failedToInsertException{
         name = name.trim().replaceAll("  +", " ");
 
         if(name.length() > 100){
@@ -510,8 +510,7 @@ public class ProgressTracker implements TrackerDao{
             int i = pstmt.executeUpdate();
 
             if(i == 0) {
-				System.err.println("Failed To Insert New Entry");
-				return null;
+				throw new failedToInsertException("new entry");
 			}
 
             rs = pstmt.getGeneratedKeys();

@@ -11,7 +11,7 @@ public interface TrackerDao {
 	public void closeConnection() throws SQLException;
 
     public boolean login(String userName, String password);
-	public boolean createAccount(String userName, String passWord);
+	public boolean createAccount(String userName, String passWord) throws noIdException;
 	
 	public List<Topic> getUserTopics();
 	public List<Topic> getAllTopics();
@@ -29,5 +29,5 @@ public interface TrackerDao {
 	public boolean trackEntry(Tracker entry);
 
 	public Topic createNewTopic(String topicName);
-	public Tracker createNewEntry(String name, String description, Topic topic);
+	public Tracker createNewEntry(String name, String description, Topic topic) throws failedToInsertException;
 }

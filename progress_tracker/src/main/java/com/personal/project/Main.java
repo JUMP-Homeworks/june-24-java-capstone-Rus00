@@ -10,6 +10,8 @@ import com.personal.project.dao.ProgressTracker;
 import com.personal.project.dao.Topic;
 import com.personal.project.dao.Tracker;
 import com.personal.project.dao.TrackerReport;
+import com.personal.project.dao.failedToInsertException;
+import com.personal.project.dao.noIdException;
 
 public class Main {
 
@@ -149,7 +151,7 @@ public class Main {
             }
         }else if(inputI == i + 1){
             String name, description;
-            Tracker newEntry;
+            Tracker newEntry = null;
             reader.nextLine();
 
             do{
@@ -159,7 +161,14 @@ public class Main {
                 System.out.println("Please enter new entry description");
                 description = reader.nextLine();
 
-                newEntry = pTracker.createNewEntry(name, description, topic);
+                try{
+                    newEntry = pTracker.createNewEntry(name, description, topic);
+                }catch(failedToInsertException e){
+                    System.out.println(e.getMessage());
+                    return false;
+
+                }
+
             }while(newEntry == null);
 
             while(true){
@@ -351,7 +360,8 @@ public class Main {
             }else if(inputI == 2){
                 String userName;
                 String passWord;
-                
+                boolean ifSuccessful;
+
                 do{
                     System.out.println("Please enter a user name you would like to use. Only letters, numbers and underscores are allowed.");
                     userName = reader.nextLine();
@@ -359,7 +369,14 @@ public class Main {
                     System.out.println("Please enter a password. The password must be 8 digits long and can not contain white spaces.");
                     passWord = reader.nextLine();
 
-                }while(!pTracker.createAccount(userName, passWord));
+                    try{
+                        ifSuccessful = pTracker.createAccount(userName, passWord);
+                    }catch(noIdException e){
+                        System.out.println(e.getMessage());
+                        break;
+                    }
+
+                }while(!ifSuccessful);
 
             // Quits the main loop and therefore the application
             }else if(inputI == 3){
